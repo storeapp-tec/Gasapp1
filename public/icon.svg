@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4f46e5" />
+      <stop offset="100%" stop-color="#2563eb" />
+    </linearGradient>
+    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#0284c7" />
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-opacity="0.3" />
+    </filter>
+  </defs>
+
+  <!-- Full Background (ensures no white borders when masked) -->
+  <rect width="512" height="512" fill="url(#bgGrad)" />
+
+  <!-- Inner Safe-zone Graphic (centered within safe circle) -->
+  <g transform="translate(106, 106)" filter="url(#shadow)">
+    <!-- Gas Station Base Pump Body -->
+    <rect x="20" y="40" width="180" height="230" rx="24" fill="#ffffff" />
+    <!-- Pump Screen / Display -->
+    <rect x="42" y="72" width="136" height="74" rx="12" fill="#0f172a" />
+    <!-- Fuel Gauge / Digits on Screen -->
+    <path d="M72 108 A 24 24 0 0 1 148 108" fill="none" stroke="#38bdf8" stroke-width="8" stroke-linecap="round" />
+    <circle cx="110" cy="108" r="6" fill="#38bdf8" />
+    <line x1="110" y1="108" x2="128" y2="94" stroke="#f59e0b" stroke-width="6" stroke-linecap="round" />
+    <!-- Fuel Pump Handle / Hose -->
+    <path d="M200 100 C240 100, 260 140, 260 210 L260 240 C260 252, 250 260, 238 260 C226 260, 220 250, 220 240 L220 180" fill="none" stroke="#e2e8f0" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" />
+    <!-- Nozzle -->
+    <path d="M220 180 L208 160 L214 150 L234 165 Z" fill="#e2e8f0" />
+    <path d="M208 160 L195 130" stroke="#38bdf8" stroke-width="8" stroke-linecap="round" />
+    <!-- Fuel Drop Accent -->
+    <path d="M110 182 C110 182, 90 206, 90 218 C90 229, 99 238, 110 238 C121 238, 130 229, 130 218 C130 206, 110 182, 110 182 Z" fill="url(#accentGrad)" />
+  </g>
+</svg>

@@ -1,0 +1,7 @@
+{
+  "name": "GasApp",
+  "description": "Control inteligente de combustible, rendimiento de gasolina, calculadora de viaje y servicios de mantenimiento.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+
