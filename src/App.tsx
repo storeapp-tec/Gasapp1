@@ -19,7 +19,6 @@ import { OdometerModal } from './components/OdometerModal';
 import { TripCalculatorModal } from './components/TripCalculatorModal';
 import { CloudSyncModal } from './components/CloudSyncModal';
 import { AppearanceModal } from './components/AppearanceModal';
-import { ExportCodeModal } from './components/ExportCodeModal';
 import { ConfirmDialogModal } from './components/ConfirmDialogModal';
 import { ToastContainer } from './components/ToastContainer';
 import { Plus } from 'lucide-react';
@@ -82,7 +81,6 @@ export default function App() {
   const [isTripCalcModalOpen, setIsTripCalcModalOpen] = useState<boolean>(false);
   const [isCloudSyncModalOpen, setIsCloudSyncModalOpen] = useState<boolean>(false);
   const [isAppearanceModalOpen, setIsAppearanceModalOpen] = useState<boolean>(false);
-  const [isExportCodeModalOpen, setIsExportCodeModalOpen] = useState<boolean>(false);
 
   // Text size changer
   const handleChangeTextSize = (size: TextSizeOption) => {
@@ -503,7 +501,6 @@ export default function App() {
           onOpenTripCalculator={() => setIsTripCalcModalOpen(true)}
           onOpenCloudSync={() => setIsCloudSyncModalOpen(true)}
           onOpenAppearance={() => setIsAppearanceModalOpen(true)}
-          onOpenExportCode={() => setIsExportCodeModalOpen(true)}
           onExportJSON={handleExportJSON}
           onExportCSV={handleExportCSV}
           onImportJSON={handleImportJSON}
@@ -655,12 +652,6 @@ export default function App() {
         onChangeFontFamily={handleChangeFontFamily}
         theme={theme}
         onToggleTheme={toggleTheme}
-      />
-
-      <ExportCodeModal
-        isOpen={isExportCodeModalOpen}
-        onClose={() => setIsExportCodeModalOpen(false)}
-        onShowToast={addToast}
       />
 
       <ConfirmDialogModal

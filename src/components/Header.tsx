@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Fuel, Calculator, MoreVertical, Download, Upload, Cloud, Sparkles, RefreshCw, Sun, Moon, Type, FileCode } from 'lucide-react';
+import { Fuel, Calculator, MoreVertical, Download, Upload, Cloud, Sparkles, RefreshCw, Sun, Moon, Type } from 'lucide-react';
 
 interface HeaderProps {
   currentTab: string;
@@ -8,7 +8,6 @@ interface HeaderProps {
   onOpenTripCalculator: () => void;
   onOpenCloudSync: () => void;
   onOpenAppearance: () => void;
-  onOpenExportCode: () => void;
   onExportJSON: () => void;
   onExportCSV: () => void;
   onImportJSON: () => void;
@@ -21,7 +20,6 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenTripCalculator,
   onOpenCloudSync,
   onOpenAppearance,
-  onOpenExportCode,
   onExportJSON,
   onExportCSV,
   onImportJSON,
@@ -124,18 +122,6 @@ export const Header: React.FC<HeaderProps> = ({
                   >
                     <Type className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
                     <span>Fuente</span>
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setMenuOpen(false);
-                      onOpenExportCode();
-                    }}
-                    className="w-full px-3 py-2 text-left hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center gap-2.5 transition-colors cursor-pointer font-semibold text-indigo-600 dark:text-indigo-400"
-                  >
-                    <FileCode className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
-                    <span>Descargar Código (HTML / TXT)</span>
                   </button>
 
                   <button
