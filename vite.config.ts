@@ -8,7 +8,7 @@ export default defineConfig(() => {
   return {
     plugins: [react(), tailwindcss(), viteSingleFile()],
     build: {
-      minify: 'terser',
+      minify: 'terser' as const,
       terserOptions: {
         format: {
           comments: false,

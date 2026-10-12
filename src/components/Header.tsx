@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Fuel, Calculator, MoreVertical, Download, Upload, Cloud, Sparkles, RefreshCw, Sun, Moon, Type, FileCode, FolderGit2 } from 'lucide-react';
+import { Fuel, Calculator, MoreVertical, Download, Upload, Cloud, Sparkles, RefreshCw, Sun, Moon, Type, FileCode } from 'lucide-react';
 
 interface HeaderProps {
   currentTab: string;
@@ -9,7 +9,6 @@ interface HeaderProps {
   onOpenCloudSync: () => void;
   onOpenAppearance: () => void;
   onOpenExportCode: () => void;
-  onOpenGitHubUploader?: () => void;
   onExportJSON: () => void;
   onExportCSV: () => void;
   onImportJSON: () => void;
@@ -23,7 +22,6 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenCloudSync,
   onOpenAppearance,
   onOpenExportCode,
-  onOpenGitHubUploader,
   onExportJSON,
   onExportCSV,
   onImportJSON,
@@ -139,20 +137,6 @@ export const Header: React.FC<HeaderProps> = ({
                     <FileCode className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
                     <span>Descargar Código (HTML / TXT)</span>
                   </button>
-
-                  {onOpenGitHubUploader && (
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setMenuOpen(false);
-                        onOpenGitHubUploader();
-                      }}
-                      className="w-full px-3 py-2 text-left hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center gap-2.5 transition-colors cursor-pointer font-bold text-purple-600 dark:text-purple-400"
-                    >
-                      <FolderGit2 className="w-4 h-4 text-purple-600 dark:text-purple-400" />
-                      <span>Publicar en GitHub (storeapp-tec/Gasapp1)</span>
-                    </button>
-                  )}
 
                   <button
                     type="button"

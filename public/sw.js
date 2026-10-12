@@ -1,4 +1,4 @@
-const CACHE_NAME = 'gasapp-v1';
+const CACHE_NAME = 'gasapp-v2';
 
 self.addEventListener('install', function(e) {
   self.skipWaiting();

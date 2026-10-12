@@ -5,14 +5,12 @@ interface ExportCodeModalProps {
   isOpen: boolean;
   onClose: () => void;
   onShowToast: (type: 'success' | 'error' | 'info', message: string) => void;
-  onOpenGitHub?: () => void;
 }
 
 export const ExportCodeModal: React.FC<ExportCodeModalProps> = ({
   isOpen,
   onClose,
   onShowToast,
-  onOpenGitHub,
 }) => {
   const [copied, setCopied] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -76,34 +74,6 @@ export const ExportCodeModal: React.FC<ExportCodeModalProps> = ({
           </p>
 
           <div className="space-y-2.5">
-            {/* Destacado: Subir a GitHub storeapp-tec/Gasapp1 */}
-            {onOpenGitHub && (
-              <button
-                type="button"
-                onClick={() => {
-                  onClose();
-                  onOpenGitHub();
-                }}
-                className="w-full flex items-center justify-between p-3.5 rounded-xl border-2 border-purple-400 dark:border-purple-600 bg-gradient-to-r from-purple-500/10 via-indigo-500/10 to-purple-500/10 hover:from-purple-500/20 hover:via-indigo-500/20 hover:to-purple-500/20 transition-all cursor-pointer group text-left shadow-sm"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="p-2 bg-gradient-to-tr from-purple-600 to-indigo-600 text-white rounded-lg group-hover:scale-105 transition-transform shadow-xs">
-                    <FolderGit2 className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <div className="font-bold text-purple-950 dark:text-purple-200 text-sm flex items-center gap-1.5">
-                      Subir a GitHub (storeapp-tec/Gasapp1)
-                      <span className="text-[10px] bg-purple-600 text-white font-bold px-1.5 py-0.5 rounded-full">Directo</span>
-                    </div>
-                    <div className="text-[11px] text-slate-600 dark:text-slate-400">
-                      Sincroniza index.html, manifest.json y sw.js en 1 clic
-                    </div>
-                  </div>
-                </div>
-                <ArrowRight className="w-4 h-4 text-purple-600 dark:text-purple-400 group-hover:translate-x-1 transition-transform" />
-              </button>
-            )}
-
             {/* Opción 1: Descargar index.html */}
             <button
               type="button"
