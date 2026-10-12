@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Fuel, Calculator, MoreVertical, Download, Upload, Cloud, Sparkles, RefreshCw, Sun, Moon, Type } from 'lucide-react';
+import { Fuel, MoreVertical, Download, Upload, HardDrive, Sun, Moon, Type, Bell } from 'lucide-react';
 
 interface HeaderProps {
   currentTab: string;
@@ -39,6 +39,21 @@ export const Header: React.FC<HeaderProps> = ({
     }
   };
 
+  const getLastBackupInfo = () => {
+    try {
+      const lastDateStr = localStorage.getItem('gasapp_last_backup_date');
+      if (!lastDateStr) return { days: 999 };
+      const diffTime = Math.abs(Date.now() - new Date(lastDateStr).getTime());
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      return { days: diffDays };
+    } catch {
+      return { days: 0 };
+    }
+  };
+
+  const backupInfo = getLastBackupInfo();
+  const needsBackup = backupInfo.days >= 7;
+
   return (
     <header className="bg-gradient-to-r from-indigo-600 via-indigo-700 to-purple-700 dark:from-slate-900 dark:via-indigo-950 dark:to-slate-900 text-white flex-shrink-0 z-30 rounded-b-2xl shadow-lg px-4 py-3 transition-colors duration-300">
       <div className="flex justify-between items-center max-w-lg mx-auto">
@@ -60,15 +75,22 @@ export const Header: React.FC<HeaderProps> = ({
 
         {/* Action Controls */}
         <div className="flex items-center gap-1.5 sm:gap-2">
-          {/* Trip Calculator Quick Shortcut */}
+          {/* Backup Reminder / Notification Button */}
           <button
             type="button"
-            onClick={onOpenTripCalculator}
-            className="flex items-center gap-1 px-2.5 py-1.5 rounded-full bg-white/15 hover:bg-white/25 active:scale-95 border border-white/20 text-xs font-semibold text-white transition-all shadow-xs cursor-pointer"
-            title="Calculadora de Viaje"
+            onClick={onOpenCloudSync}
+            className={`relative flex items-center gap-1.5 px-2.5 py-1.5 rounded-full border text-xs font-semibold transition-all shadow-xs cursor-pointer ${
+              needsBackup
+                ? 'bg-amber-500 hover:bg-amber-600 text-white border-amber-400 animate-pulse'
+                : 'bg-white/15 hover:bg-white/25 text-white border-white/20'
+            }`}
+            title="Respaldos y Recordatorio Semanal"
           >
-            <Calculator className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline">Viaje</span>
+            <Bell className={`w-3.5 h-3.5 ${needsBackup ? 'text-white' : 'text-indigo-200'}`} />
+            <span className="hidden sm:inline">Respaldar</span>
+            {needsBackup && (
+              <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-600 rounded-full ring-2 ring-indigo-700 animate-ping" />
+            )}
           </button>
 
           {/* High-contrast Black / White Dark Mode Toggle Button */}
@@ -128,24 +150,12 @@ export const Header: React.FC<HeaderProps> = ({
                     type="button"
                     onClick={() => {
                       setMenuOpen(false);
-                      onOpenTripCalculator();
-                    }}
-                    className="w-full px-3 py-2 text-left hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center gap-2.5 transition-colors cursor-pointer"
-                  >
-                    <Calculator className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
-                    <span>Calculadora de Viaje</span>
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setMenuOpen(false);
                       onOpenCloudSync();
                     }}
                     className="w-full px-3 py-2 text-left hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center gap-2.5 transition-colors cursor-pointer"
                   >
-                    <Cloud className="w-4 h-4 text-sky-600 dark:text-sky-400" />
-                    <span>Google Drive y Respaldos</span>
+                    <HardDrive className="w-4 h-4 text-sky-600 dark:text-sky-400" />
+                    <span>Respaldos</span>
                   </button>
 
                   <div className="my-1 border-t border-slate-100 dark:border-slate-800" />
