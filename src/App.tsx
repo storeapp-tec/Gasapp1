@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
+import { motion, AnimatePresence, useMotionValue, animate } from 'motion/react';
 import { AppData, FuelRecord, ComputedFuelRecord, ServiceRecord, ToastMessage } from './types';
 import {
   calculateContinuousConsumption,
@@ -23,6 +24,23 @@ import { ConfirmDialogModal } from './components/ConfirmDialogModal';
 import { ToastContainer } from './components/ToastContainer';
 import { Plus } from 'lucide-react';
 import { TextSizeOption, FontFamilyOption } from './types';
+
+const TAB_ORDER = ['inicio', 'historial', 'servicios'] as const;
+
+const tabSlideVariants = {
+  enter: (direction: number) => ({
+    x: direction > 0 ? 56 : -56,
+    opacity: 0,
+  }),
+  center: {
+    x: 0,
+    opacity: 1,
+  },
+  exit: (direction: number) => ({
+    x: direction > 0 ? -56 : 56,
+    opacity: 0,
+  }),
+};
 
 const STORAGE_KEY = 'gas_app_data';
 const THEME_KEY = 'gas_app_theme';
@@ -71,6 +89,168 @@ export default function App() {
 
   // Navigation tab: 'inicio' | 'historial' | 'servicios'
   const [currentTab, setCurrentTab] = useState<string>('inicio');
+  const [slideDirection, setSlideDirection] = useState<1 | -1>(1);
+  const currentTabRef = useRef<string>(currentTab);
+  currentTabRef.current = currentTab;
+
+  const mainRef = useRef<HTMLElement>(null);
+  const dragX = useMotionValue(0);
+  const suppressClickRef = useRef<boolean>(false);
+
+  const navigateCircular = (dir: 1 | -1) => {
+    const idx = TAB_ORDER.indexOf(currentTabRef.current as (typeof TAB_ORDER)[number]);
+    const safeIdx = idx === -1 ? 0 : idx;
+    const nextIdx = (safeIdx + dir + TAB_ORDER.length) % TAB_ORDER.length;
+    setSlideDirection(dir);
+    setCurrentTab(TAB_ORDER[nextIdx]);
+    mainRef.current?.scrollTo({ top: 0 });
+  };
+
+  const handleSelectTab = (nextTab: string) => {
+    if (nextTab === currentTab) return;
+    const fromIdx = TAB_ORDER.indexOf(currentTab as (typeof TAB_ORDER)[number]);
+    const toIdx = TAB_ORDER.indexOf(nextTab as (typeof TAB_ORDER)[number]);
+    setSlideDirection(toIdx >= fromIdx ? 1 : -1);
+    setCurrentTab(nextTab);
+    mainRef.current?.scrollTo({ top: 0 });
+  };
+
+  // Native non-passive touch + window mouse circular swipe engine
+  useEffect(() => {
+    const el = mainRef.current;
+    if (!el) return;
+
+    const isFormTarget = (target: EventTarget | null) =>
+      target instanceof HTMLElement && Boolean(target.closest('input, select, textarea, option'));
+
+    let active = false;
+    let isMouse = false;
+    let startX = 0;
+    let startY = 0;
+    let lastX = 0;
+    let lastY = 0;
+    let startTime = 0;
+    let lock: 'x' | 'y' | null = null;
+
+    const finishGesture = (endX: number, endY: number) => {
+      if (!active) return;
+      const dx = endX - startX;
+      const dy = endY - startY;
+      const elapsed = Date.now() - startTime;
+      const wasHorizontal = lock === 'x' || (lock === null && Math.abs(dx) > 36 && Math.abs(dx) > Math.abs(dy));
+      const wasMouse = isMouse;
+
+      active = false;
+      isMouse = false;
+      lock = null;
+      animate(dragX, 0, { duration: 0.16, ease: [0.16, 1, 0.3, 1] });
+
+      if (wasHorizontal && (Math.abs(dx) >= 36 || (Math.abs(dx) >= 20 && elapsed < 280))) {
+        suppressClickRef.current = true;
+        setTimeout(() => {
+          suppressClickRef.current = false;
+        }, 120);
+        navigateCircular(dx < 0 ? 1 : -1);
+      }
+    };
+
+    const onTouchStart = (e: TouchEvent) => {
+      if (e.touches.length !== 1 || isFormTarget(e.target)) return;
+      active = true;
+      isMouse = false;
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
+      lastX = startX;
+      lastY = startY;
+      startTime = Date.now();
+      lock = null;
+    };
+
+    const onTouchMove = (e: TouchEvent) => {
+      if (!active || isMouse || e.touches.length !== 1) return;
+      const x = e.touches[0].clientX;
+      const y = e.touches[0].clientY;
+      lastX = x;
+      lastY = y;
+      const dx = x - startX;
+      const dy = y - startY;
+
+      if (lock === null && (Math.abs(dx) > 8 || Math.abs(dy) > 8)) {
+        if (Math.abs(dx) >= Math.abs(dy) * 0.85) {
+          lock = 'x';
+        } else if (Math.abs(dy) > Math.abs(dx) * 1.2) {
+          lock = 'y';
+        }
+      }
+
+      if (lock === 'x') {
+        if (e.cancelable) e.preventDefault();
+        dragX.set(Math.max(-85, Math.min(85, dx * 0.45)));
+      }
+    };
+
+    const onTouchEnd = (e: TouchEvent) => {
+      if (!active || isMouse) return;
+      const touch = e.changedTouches[0];
+      finishGesture(touch ? touch.clientX : lastX, touch ? touch.clientY : lastY);
+    };
+
+    const onTouchCancel = () => {
+      if (!active || isMouse) return;
+      finishGesture(lastX, lastY);
+    };
+
+    const onMouseDown = (e: MouseEvent) => {
+      if (e.button !== 0 || isFormTarget(e.target)) return;
+      active = true;
+      isMouse = true;
+      startX = e.clientX;
+      startY = e.clientY;
+      lastX = startX;
+      lastY = startY;
+      startTime = Date.now();
+      lock = null;
+    };
+
+    const onMouseMove = (e: MouseEvent) => {
+      if (!active || !isMouse) return;
+      lastX = e.clientX;
+      lastY = e.clientY;
+      const dx = lastX - startX;
+      const dy = lastY - startY;
+
+      if (lock === null && (Math.abs(dx) > 8 || Math.abs(dy) > 8)) {
+        lock = Math.abs(dx) >= Math.abs(dy) ? 'x' : 'y';
+      }
+
+      if (lock === 'x') {
+        dragX.set(Math.max(-85, Math.min(85, dx * 0.45)));
+      }
+    };
+
+    const onMouseUp = (e: MouseEvent) => {
+      if (!active || !isMouse) return;
+      finishGesture(e.clientX, e.clientY);
+    };
+
+    el.addEventListener('touchstart', onTouchStart, { passive: true });
+    el.addEventListener('touchmove', onTouchMove, { passive: false });
+    el.addEventListener('touchend', onTouchEnd, { passive: true });
+    el.addEventListener('touchcancel', onTouchCancel, { passive: true });
+    el.addEventListener('mousedown', onMouseDown);
+    window.addEventListener('mousemove', onMouseMove);
+    window.addEventListener('mouseup', onMouseUp);
+
+    return () => {
+      el.removeEventListener('touchstart', onTouchStart);
+      el.removeEventListener('touchmove', onTouchMove);
+      el.removeEventListener('touchend', onTouchEnd);
+      el.removeEventListener('touchcancel', onTouchCancel);
+      el.removeEventListener('mousedown', onMouseDown);
+      window.removeEventListener('mousemove', onMouseMove);
+      window.removeEventListener('mouseup', onMouseUp);
+    };
+  }, [dragX]);
 
   // Modals state
   const [isFuelModalOpen, setIsFuelModalOpen] = useState<boolean>(false);
@@ -281,7 +461,7 @@ export default function App() {
       }));
       addToast(
         'success',
-        `Carga de ${fuelData.liters.toFixed(1)}L guardada (${fuelData.liters >= appData.tankCapacityThreshold ? 'Tanque lleno ⛽' : 'Carga parcial 💧'})`,
+        `Carga de ${fuelData.liters.toFixed(1)}L guardada (${fuelData.liters >= appData.tankCapacityThreshold ? 'Lleno ⛽' : 'Parcial 💧'})`,
         '¡Carga Registrada!'
       );
     }
@@ -488,14 +668,13 @@ export default function App() {
   };
 
   return (
-    <div className={`min-h-screen bg-slate-100 dark:bg-slate-950 text-slate-900 dark:text-slate-100 flex flex-col justify-between selection:bg-indigo-500 selection:text-white transition-colors duration-200 ${getFontFamilyClass()} ${getTextSizeClass()}`}>
+    <div className={`min-h-screen bg-slate-100 dark:bg-slate-950 text-slate-900 dark:text-slate-100 flex flex-col justify-between selection:bg-blue-600 selection:text-white transition-colors duration-200 ${getFontFamilyClass()} ${getTextSizeClass()}`}>
       {/* Modern In-App Toast Container */}
       <ToastContainer toasts={toasts} onDismiss={dismissToast} />
 
       <div className="w-full max-w-md mx-auto flex-1 flex flex-col relative shadow-2xl bg-slate-50/50 dark:bg-slate-950 min-h-screen">
         {/* Header with Circular Dark/Light Mode Button & Menu */}
         <Header
-          currentTab={currentTab}
           theme={theme}
           onToggleTheme={toggleTheme}
           onOpenTripCalculator={() => setIsTripCalcModalOpen(true)}
@@ -506,54 +685,77 @@ export default function App() {
           onImportJSON={handleImportJSON}
         />
 
-        {/* Main Tab Content */}
-        <main className="flex-1 p-4 overflow-y-auto">
-          {currentTab === 'inicio' && (
-            <TabResumen
-              carName={appData.carName}
-              odometer={currentOdometer}
-              recentFuels={computedViewFuels}
-              tankCapacityThreshold={appData.tankCapacityThreshold}
-              onEditCarName={() => setIsCarNameModalOpen(true)}
-              onEditOdometer={() => setIsOdometerModalOpen(true)}
-              onSelectFuel={(f) => {
-                setEditingFuel(f);
-                setIsFuelModalOpen(true);
-              }}
-              onOpenTripCalculator={() => setIsTripCalcModalOpen(true)}
-              onAddFuel={() => {
-                setEditingFuel(null);
-                setIsFuelModalOpen(true);
-              }}
-            />
-          )}
+        {/* Main Tab Content with Circular Swipe Navigation */}
+        <main
+          ref={mainRef}
+          onClickCapture={(e) => {
+            if (suppressClickRef.current) {
+              e.stopPropagation();
+              e.preventDefault();
+            }
+          }}
+          className="flex-1 px-2 pt-1 pb-13 overflow-x-hidden overflow-y-auto touch-pan-y select-none"
+        >
+          <motion.div style={{ x: dragX }}>
+            <AnimatePresence mode="popLayout" initial={false} custom={slideDirection}>
+              <motion.div
+                key={currentTab}
+                custom={slideDirection}
+                variants={tabSlideVariants}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
+              >
+                {currentTab === 'inicio' && (
+                  <TabResumen
+                    carName={appData.carName}
+                    odometer={currentOdometer}
+                    recentFuels={computedViewFuels}
+                    tankCapacityThreshold={appData.tankCapacityThreshold}
+                    onEditCarName={() => setIsCarNameModalOpen(true)}
+                    onEditOdometer={() => setIsOdometerModalOpen(true)}
+                    onSelectFuel={(f) => {
+                      setEditingFuel(f);
+                      setIsFuelModalOpen(true);
+                    }}
+                    onOpenTripCalculator={() => setIsTripCalcModalOpen(true)}
+                    onAddFuel={() => {
+                      setEditingFuel(null);
+                      setIsFuelModalOpen(true);
+                    }}
+                  />
+                )}
 
-          {currentTab === 'historial' && (
-            <TabHistorial
-              computedChronoFuels={computedChronoFuels}
-              computedViewFuels={computedViewFuels}
-              tankCapacityThreshold={appData.tankCapacityThreshold}
-              onSelectFuel={(f) => {
-                setEditingFuel(f);
-                setIsFuelModalOpen(true);
-              }}
-              onAddFuel={() => {
-                setEditingFuel(null);
-                setIsFuelModalOpen(true);
-              }}
-              onExportCSV={handleExportCSV}
-            />
-          )}
+                {currentTab === 'historial' && (
+                  <TabHistorial
+                    computedChronoFuels={computedChronoFuels}
+                    computedViewFuels={computedViewFuels}
+                    tankCapacityThreshold={appData.tankCapacityThreshold}
+                    onSelectFuel={(f) => {
+                      setEditingFuel(f);
+                      setIsFuelModalOpen(true);
+                    }}
+                    onAddFuel={() => {
+                      setEditingFuel(null);
+                      setIsFuelModalOpen(true);
+                    }}
+                    onExportCSV={handleExportCSV}
+                  />
+                )}
 
-          {currentTab === 'servicios' && (
-            <TabServicios
-              services={appData.services}
-              currentOdometer={currentOdometer}
-              onAddService={() => setIsServiceModalOpen(true)}
-              onDeleteService={handleDeleteService}
-              onToggleCompleteService={handleToggleCompleteService}
-            />
-          )}
+                {currentTab === 'servicios' && (
+                  <TabServicios
+                    services={appData.services}
+                    currentOdometer={currentOdometer}
+                    onAddService={() => setIsServiceModalOpen(true)}
+                    onDeleteService={handleDeleteService}
+                    onToggleCompleteService={handleToggleCompleteService}
+                  />
+                )}
+              </motion.div>
+            </AnimatePresence>
+          </motion.div>
         </main>
 
         {/* Floating Action Button (FAB) - Contextual (Fuel in Inicio/Historial, Service in Servicios) */}
@@ -567,21 +769,17 @@ export default function App() {
               setIsFuelModalOpen(true);
             }
           }}
-          className={`fixed bottom-20 right-4 sm:right-[calc(50%-200px)] w-13 h-13 text-white rounded-full flex items-center justify-center shadow-xl z-30 transition-transform active:scale-90 hover:scale-105 cursor-pointer ${
-            currentTab === 'servicios'
-              ? 'bg-gradient-to-tr from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 shadow-amber-600/40'
-              : 'bg-gradient-to-tr from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 shadow-indigo-600/40'
-          }`}
+          className="fixed bottom-13 right-3 sm:right-[calc(50%-204px)] w-11 h-11 text-white rounded-full flex items-center justify-center shadow-lg z-30 transition-transform active:scale-90 hover:scale-105 cursor-pointer bg-blue-600 hover:bg-blue-700 shadow-blue-600/35"
           aria-label={currentTab === 'servicios' ? 'Programar o registrar servicio' : 'Registrar nueva carga de combustible'}
           title={currentTab === 'servicios' ? 'Nuevo Servicio' : 'Nueva Carga de Combustible'}
         >
-          <Plus className="w-7 h-7 stroke-[2.5]" />
+          <Plus className="w-6 h-6 stroke-[2.5]" />
         </button>
 
         {/* Bottom Navigation */}
         <Navigation
           currentTab={currentTab}
-          onSelectTab={setCurrentTab}
+          onSelectTab={handleSelectTab}
           serviceAlertCount={serviceAlertCount}
         />
       </div>

@@ -92,17 +92,17 @@ export const FuelModal: React.FC<FuelModalProps> = ({
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs">
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-2.5 bg-black/60 backdrop-blur-xs">
         <motion.div
           initial={{ opacity: 0, scale: 0.95, y: 15 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 15 }}
-          className="bg-white dark:bg-slate-900 rounded-2xl p-5 w-full max-w-md shadow-2xl border border-slate-200 dark:border-slate-800 max-h-[90vh] overflow-y-auto"
+          className="bg-white dark:bg-slate-900 rounded-2xl p-3.5 w-full max-w-md shadow-2xl border border-slate-200 dark:border-slate-800 max-h-[94vh] overflow-y-auto"
         >
           {/* Title */}
-          <div className="flex justify-between items-center pb-3 border-b border-slate-100 dark:border-slate-800">
+          <div className="flex justify-between items-center pb-2 border-b border-slate-100 dark:border-slate-800">
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-indigo-100 dark:bg-indigo-900/60 text-indigo-600 dark:text-indigo-400 flex items-center justify-center">
+              <div className="w-8 h-8 rounded-lg bg-blue-100 dark:bg-blue-900/60 text-blue-600 dark:text-blue-400 flex items-center justify-center">
                 <Fuel className="w-4 h-4" />
               </div>
               <h2 className="text-base font-bold text-slate-800 dark:text-slate-100">
@@ -125,7 +125,7 @@ export const FuelModal: React.FC<FuelModalProps> = ({
           )}
 
           {/* Form */}
-          <form onSubmit={handleSubmit} className="mt-4 space-y-3">
+          <form onSubmit={handleSubmit} className="mt-2.5 space-y-2.5">
             {/* Odometer */}
             <div>
               <label className="block text-xs font-bold text-slate-600 dark:text-slate-400 mb-1">
@@ -142,7 +142,7 @@ export const FuelModal: React.FC<FuelModalProps> = ({
                     setError('');
                   }}
                   placeholder={currentOdometer > 0 ? `Ej: ${currentOdometer + 350}` : 'Ej: 85400'}
-                  className="w-full bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2.5 text-base font-bold text-slate-800 dark:text-slate-100 focus:outline-hidden focus:ring-2 focus:ring-indigo-500"
+                  className="w-full bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2.5 text-base font-bold text-slate-800 dark:text-slate-100 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
                 />
                 <Gauge className="w-4 h-4 absolute right-3 top-3 text-slate-400" />
               </div>
@@ -178,7 +178,7 @@ export const FuelModal: React.FC<FuelModalProps> = ({
                       setError('');
                     }}
                     placeholder="Ej: 35.5"
-                    className="w-full bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2.5 text-base font-bold text-slate-800 dark:text-slate-100 focus:outline-hidden focus:ring-2 focus:ring-indigo-500"
+                    className="w-full bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2.5 text-base font-bold text-slate-800 dark:text-slate-100 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
                   />
                   <Droplet className="w-4 h-4 absolute right-3 top-3 text-slate-400" />
                 </div>
@@ -199,7 +199,7 @@ export const FuelModal: React.FC<FuelModalProps> = ({
                       setError('');
                     }}
                     placeholder="Ej: 24.50"
-                    className="w-full bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2.5 text-base font-bold text-slate-800 dark:text-slate-100 focus:outline-hidden focus:ring-2 focus:ring-indigo-500"
+                    className="w-full bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2.5 text-base font-bold text-slate-800 dark:text-slate-100 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
                   />
                   <span className="absolute right-3 top-2.5 text-xs font-bold text-slate-400">$</span>
                 </div>
@@ -217,7 +217,7 @@ export const FuelModal: React.FC<FuelModalProps> = ({
                   required
                   value={date}
                   onChange={(e) => setDate(e.target.value)}
-                  className="w-full bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm font-semibold text-slate-800 dark:text-slate-100 focus:outline-hidden focus:ring-2 focus:ring-indigo-500"
+                  className="w-full bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm font-semibold text-slate-800 dark:text-slate-100 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
                 />
                 <Calendar className="w-4 h-4 absolute right-3 top-2.5 text-slate-400 pointer-events-none" />
               </div>
@@ -229,11 +229,11 @@ export const FuelModal: React.FC<FuelModalProps> = ({
                 Total a pagar:
                 {numLiters > 0 && (
                   <div className="text-[11px] text-slate-600 dark:text-slate-300">
-                    {isFullTank ? `Tanque lleno (≥${tankThreshold} L)` : `Carga parcial (<${tankThreshold} L)`}
+                    {isFullTank ? `Lleno (≥${tankThreshold} L)` : `Parcial (<${tankThreshold} L)`}
                   </div>
                 )}
               </div>
-              <div className="text-xl font-extrabold text-indigo-600 dark:text-indigo-400">
+              <div className="text-xl font-extrabold text-blue-600 dark:text-blue-400">
                 {formatCurrency(liveTotal)}
               </div>
             </div>
@@ -249,7 +249,7 @@ export const FuelModal: React.FC<FuelModalProps> = ({
               </button>
               <button
                 type="submit"
-                className="flex-1 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold text-xs transition-colors shadow-md shadow-indigo-600/20"
+                className="flex-1 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold text-xs transition-colors shadow-md shadow-blue-600/20"
               >
                 {editingFuel ? 'Actualizar' : 'Guardar Carga'}
               </button>

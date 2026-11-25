@@ -48,7 +48,7 @@ export const CarNameModal: React.FC<CarNameModalProps> = ({
         >
           <div className="flex justify-between items-center pb-3 border-b border-slate-100 dark:border-slate-800">
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-indigo-100 dark:bg-indigo-900/60 text-indigo-600 dark:text-indigo-400 flex items-center justify-center">
+              <div className="w-8 h-8 rounded-lg bg-blue-100 dark:bg-blue-900/60 text-blue-600 dark:text-blue-400 flex items-center justify-center">
                 <Car className="w-4 h-4" />
               </div>
               <h2 className="text-base font-bold text-slate-800 dark:text-slate-100">
@@ -76,7 +76,7 @@ export const CarNameModal: React.FC<CarNameModalProps> = ({
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Ej: Nissan March"
-                className="w-full bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2.5 text-sm font-bold text-slate-800 dark:text-slate-100 focus:outline-hidden focus:ring-2 focus:ring-indigo-500"
+                className="w-full bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2.5 text-sm font-bold text-slate-800 dark:text-slate-100 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
               />
             </div>
 
@@ -84,10 +84,10 @@ export const CarNameModal: React.FC<CarNameModalProps> = ({
             <div>
               <div className="flex justify-between items-center mb-1">
                 <label className="text-xs font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1">
-                  <Fuel className="w-3.5 h-3.5 text-indigo-500" />
+                  <Fuel className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
                   Capacidad del Tanque (Litros)
                 </label>
-                <span className="text-indigo-600 dark:text-indigo-400 font-bold text-xs">
+                <span className="text-blue-600 dark:text-blue-400 font-bold text-xs">
                   {tankCapacity} L
                 </span>
               </div>
@@ -100,7 +100,7 @@ export const CarNameModal: React.FC<CarNameModalProps> = ({
                 value={tankCapacity || ''}
                 onChange={(e) => setTankCapacity(Math.max(1, parseFloat(e.target.value) || 0))}
                 placeholder="38"
-                className="w-full bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2.5 text-sm font-bold text-slate-800 dark:text-slate-100 focus:outline-hidden focus:ring-2 focus:ring-indigo-500"
+                className="w-full bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2.5 text-sm font-bold text-slate-800 dark:text-slate-100 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
               />
 
               {/* Quick presets */}
@@ -117,7 +117,7 @@ export const CarNameModal: React.FC<CarNameModalProps> = ({
                     onClick={() => setTankCapacity(item.val)}
                     className={`flex-1 py-1 rounded-lg text-[10px] font-bold border transition-colors ${
                       tankCapacity === item.val
-                        ? 'bg-indigo-50 dark:bg-indigo-950/60 border-indigo-400 dark:border-indigo-600 text-indigo-600 dark:text-indigo-300'
+                        ? 'bg-blue-50 dark:bg-blue-950/60 border-blue-400 dark:border-blue-600 text-blue-600 dark:text-blue-300'
                         : 'bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400'
                     }`}
                   >
@@ -127,7 +127,7 @@ export const CarNameModal: React.FC<CarNameModalProps> = ({
               </div>
 
               <div className="flex items-start gap-1.5 mt-2 text-[11px] text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-800/40 p-2 rounded-lg">
-                <Info className="w-3.5 h-3.5 text-indigo-500 shrink-0 mt-0.5" />
+                <Info className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400 shrink-0 mt-0.5" />
                 <span>
                   El <strong>Nissan March</strong> cuenta con un tanque oficial de <strong>38 Litros</strong>. Este valor se usa para los cálculos de tanque lleno y en la calculadora de viaje.
                 </span>
@@ -144,7 +144,7 @@ export const CarNameModal: React.FC<CarNameModalProps> = ({
               </button>
               <button
                 type="submit"
-                className="flex-1 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold text-xs transition-colors shadow-md shadow-indigo-600/20"
+                className="flex-1 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold text-xs transition-colors shadow-md shadow-blue-600/20"
               >
                 Guardar
               </button>

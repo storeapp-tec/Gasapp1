@@ -72,17 +72,17 @@ export const TripCalculatorModal: React.FC<TripCalculatorModalProps> = ({
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs">
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-2.5 bg-black/60 backdrop-blur-xs">
         <motion.div
           initial={{ opacity: 0, scale: 0.95, y: 15 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 15 }}
-          className="bg-white dark:bg-slate-900 rounded-2xl p-5 w-full max-w-md shadow-2xl border border-slate-200 dark:border-slate-800 max-h-[90vh] overflow-y-auto"
+          className="bg-white dark:bg-slate-900 rounded-2xl p-3.5 w-full max-w-md shadow-2xl border border-slate-200 dark:border-slate-800 max-h-[94vh] overflow-y-auto"
         >
           {/* Header */}
-          <div className="flex justify-between items-center pb-3 border-b border-slate-100 dark:border-slate-800">
+          <div className="flex justify-between items-center pb-2 border-b border-slate-100 dark:border-slate-800">
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-indigo-100 dark:bg-indigo-900/60 text-indigo-600 dark:text-indigo-400 flex items-center justify-center">
+              <div className="w-8 h-8 rounded-lg bg-blue-100 dark:bg-blue-900/60 text-blue-600 dark:text-blue-400 flex items-center justify-center">
                 <Navigation className="w-4 h-4" />
               </div>
               <div>
@@ -90,7 +90,7 @@ export const TripCalculatorModal: React.FC<TripCalculatorModalProps> = ({
                   Calculadora de Viaje
                 </h2>
                 <p className="text-[10px] text-slate-500 dark:text-slate-400">
-                  Capacidad de tanque configurada: <span className="font-bold text-indigo-600 dark:text-indigo-400">{activeTankCap} L</span>
+                  Capacidad de tanque configurada: <span className="font-bold text-blue-600 dark:text-blue-400">{activeTankCap} L</span>
                 </p>
               </div>
             </div>
@@ -104,7 +104,7 @@ export const TripCalculatorModal: React.FC<TripCalculatorModalProps> = ({
           </div>
 
           {/* Form */}
-          <div className="mt-4 space-y-3.5 text-xs font-semibold">
+          <div className="mt-2.5 space-y-2.5 text-xs font-semibold">
             {/* Distancia */}
             <div>
               <div className="flex justify-between items-center mb-1">
@@ -116,7 +116,7 @@ export const TripCalculatorModal: React.FC<TripCalculatorModalProps> = ({
                   onClick={() => setIsRoundTrip(!isRoundTrip)}
                   className={`flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] transition-colors ${
                     isRoundTrip
-                      ? 'bg-indigo-600 text-white'
+                      ? 'bg-blue-600 text-white'
                       : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400'
                   }`}
                 >
@@ -133,7 +133,7 @@ export const TripCalculatorModal: React.FC<TripCalculatorModalProps> = ({
                   value={distanceKm}
                   onChange={(e) => setDistanceKm(e.target.value)}
                   placeholder="Ej: 150"
-                  className="w-full bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2.5 text-base font-bold text-slate-800 dark:text-slate-100 focus:outline-hidden focus:ring-2 focus:ring-indigo-500"
+                  className="w-full bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2.5 text-base font-bold text-slate-800 dark:text-slate-100 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
                 />
                 <span className="absolute right-3 top-3 text-slate-400 font-bold">km</span>
               </div>
@@ -147,7 +147,7 @@ export const TripCalculatorModal: React.FC<TripCalculatorModalProps> = ({
                     onClick={() => setDistanceKm(String(d))}
                     className={`flex-1 py-1 rounded-md text-[11px] font-medium border transition-colors ${
                       distanceKm === String(d)
-                        ? 'bg-indigo-50 dark:bg-indigo-950/60 border-indigo-300 dark:border-indigo-700 text-indigo-600 dark:text-indigo-300 font-bold'
+                        ? 'bg-blue-50 dark:bg-blue-950/60 border-blue-300 dark:border-blue-700 text-blue-600 dark:text-blue-300 font-bold'
                         : 'bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400'
                     }`}
                   >
@@ -169,7 +169,7 @@ export const TripCalculatorModal: React.FC<TripCalculatorModalProps> = ({
                   value={efficiency}
                   onChange={(e) => setEfficiency(e.target.value)}
                   placeholder="11.5"
-                  className="w-full bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm font-semibold text-slate-800 dark:text-slate-100 focus:outline-hidden focus:ring-2 focus:ring-indigo-500"
+                  className="w-full bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm font-semibold text-slate-800 dark:text-slate-100 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
                 />
                 <span className="text-[10px] text-slate-600 dark:text-slate-300">
                   {avgEfficiency ? `Promedio actual: ${avgEfficiency.toFixed(1)}` : 'Estimado'}
@@ -186,7 +186,7 @@ export const TripCalculatorModal: React.FC<TripCalculatorModalProps> = ({
                   value={fuelPrice}
                   onChange={(e) => setFuelPrice(e.target.value)}
                   placeholder="24.50"
-                  className="w-full bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm font-semibold text-slate-800 dark:text-slate-100 focus:outline-hidden focus:ring-2 focus:ring-indigo-500"
+                  className="w-full bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm font-semibold text-slate-800 dark:text-slate-100 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
                 />
                 <span className="text-[10px] text-slate-600 dark:text-slate-300">Último costo registrado</span>
               </div>
@@ -196,10 +196,10 @@ export const TripCalculatorModal: React.FC<TripCalculatorModalProps> = ({
             <div className="bg-slate-50 dark:bg-slate-800/60 p-3 rounded-xl border border-slate-200 dark:border-slate-700 space-y-2">
               <div className="flex justify-between items-center">
                 <label className="text-slate-700 dark:text-slate-300 font-bold flex items-center gap-1.5">
-                  <Fuel className="w-3.5 h-3.5 text-indigo-500" />
+                  <Fuel className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
                   Capacidad de Tanque del Auto
                 </label>
-                <span className="text-indigo-600 dark:text-indigo-400 font-bold text-xs">
+                <span className="text-blue-600 dark:text-blue-400 font-bold text-xs">
                   {activeTankCap} Litros
                 </span>
               </div>
@@ -231,7 +231,7 @@ export const TripCalculatorModal: React.FC<TripCalculatorModalProps> = ({
                       onClick={() => handleTankChange(preset.val)}
                       className={`flex-1 py-1 rounded-md text-[10px] font-bold border transition-colors ${
                         activeTankCap === preset.val
-                          ? 'bg-indigo-600 text-white border-indigo-600'
+                          ? 'bg-blue-600 text-white border-blue-600'
                           : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400'
                       }`}
                     >
@@ -249,7 +249,7 @@ export const TripCalculatorModal: React.FC<TripCalculatorModalProps> = ({
                   <Users className="w-3.5 h-3.5" />
                   Dividir gasto entre pasajeros
                 </label>
-                <span className="text-indigo-600 dark:text-indigo-400 font-bold">
+                <span className="text-blue-600 dark:text-blue-400 font-bold">
                   {safePassengers} {safePassengers === 1 ? 'persona' : 'personas'}
                 </span>
               </div>
@@ -261,7 +261,7 @@ export const TripCalculatorModal: React.FC<TripCalculatorModalProps> = ({
                     onClick={() => setPassengers(p)}
                     className={`flex-1 py-1.5 rounded-lg border text-xs font-bold transition-all ${
                       passengers === p
-                        ? 'bg-indigo-600 border-indigo-600 text-white shadow-xs'
+                        ? 'bg-blue-600 border-blue-600 text-white shadow-xs'
                         : 'bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300'
                     }`}
                   >
@@ -273,31 +273,31 @@ export const TripCalculatorModal: React.FC<TripCalculatorModalProps> = ({
           </div>
 
           {/* Result Card */}
-          <div className="mt-5 bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-950/40 dark:to-purple-950/40 border border-indigo-100 dark:border-indigo-900/50 rounded-2xl p-4 text-center">
-            <div className="text-[11px] font-bold uppercase tracking-wider text-indigo-700 dark:text-indigo-300 mb-1">
+          <div className="mt-3 bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 rounded-2xl p-3 text-center">
+            <div className="text-[11px] font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-0.5">
               Gasto Total Estimado ({formatNumber(totalEffectiveDistance)} km)
             </div>
 
-            <div className="text-3xl font-extrabold text-indigo-600 dark:text-indigo-400 tracking-tight">
+            <div className="text-3xl font-extrabold text-blue-600 dark:text-blue-400 tracking-tight">
               {formatCurrency(totalCost)}
             </div>
 
-            <div className="grid grid-cols-3 gap-2 mt-4 pt-3 border-t border-indigo-200/60 dark:border-indigo-900/60 text-left">
-              <div className="bg-white/80 dark:bg-slate-900/80 p-2 rounded-xl border border-indigo-100/50 dark:border-slate-800 text-center">
+            <div className="grid grid-cols-3 gap-2 mt-2.5 pt-2.5 border-t border-slate-200 dark:border-slate-700 text-left">
+              <div className="bg-white dark:bg-slate-900 p-2 rounded-xl border border-slate-200/80 dark:border-slate-800 text-center">
                 <div className="text-[10px] text-slate-600 dark:text-slate-300 font-bold uppercase">Litros</div>
                 <div className="text-sm font-extrabold text-slate-800 dark:text-slate-100">
                   {litersNeeded.toFixed(1)} L
                 </div>
               </div>
 
-              <div className="bg-white/80 dark:bg-slate-900/80 p-2 rounded-xl border border-indigo-100/50 dark:border-slate-800 text-center">
+              <div className="bg-white dark:bg-slate-900 p-2 rounded-xl border border-slate-200/80 dark:border-slate-800 text-center">
                 <div className="text-[10px] text-slate-600 dark:text-slate-300 font-bold uppercase">Tanques ({activeTankCap}L)</div>
                 <div className="text-sm font-extrabold text-slate-800 dark:text-slate-100">
                   {tanksNeeded.toFixed(2)}
                 </div>
               </div>
 
-              <div className="bg-white/80 dark:bg-slate-900/80 p-2 rounded-xl border border-indigo-100/50 dark:border-slate-800 text-center">
+              <div className="bg-white dark:bg-slate-900 p-2 rounded-xl border border-slate-200/80 dark:border-slate-800 text-center">
                 <div className="text-[10px] text-slate-600 dark:text-slate-300 font-bold uppercase">Por persona</div>
                 <div className="text-sm font-extrabold text-emerald-600 dark:text-emerald-400">
                   {formatCurrency(costPerPerson)}
@@ -306,7 +306,7 @@ export const TripCalculatorModal: React.FC<TripCalculatorModalProps> = ({
             </div>
           </div>
 
-          <div className="mt-4">
+          <div className="mt-2.5">
             <button
               type="button"
               onClick={onClose}

@@ -157,7 +157,7 @@ export function exportDataToCSV(fuels: FuelRecord[], carName: string): string {
     f.liters,
     f.pricePerLiter,
     f.totalCost.toFixed(2),
-    f.liters >= 38 ? 'Tanque Lleno' : 'Carga Parcial'
+    f.liters >= 38 ? 'Lleno' : 'Parcial'
   ]);
   
   const csvContent = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');

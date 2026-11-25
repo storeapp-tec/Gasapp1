@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { Fuel, MoreVertical, Download, Upload, HardDrive, Sun, Moon, Type, Bell } from 'lucide-react';
+import { MoreVertical, Download, Upload, HardDrive, Sun, Moon, Type, Bell } from 'lucide-react';
 
 interface HeaderProps {
-  currentTab: string;
   theme: 'light' | 'dark';
   onToggleTheme: () => void;
   onOpenTripCalculator: () => void;
@@ -14,7 +13,6 @@ interface HeaderProps {
 }
 
 export const Header: React.FC<HeaderProps> = ({
-  currentTab,
   theme,
   onToggleTheme,
   onOpenTripCalculator,
@@ -25,19 +23,6 @@ export const Header: React.FC<HeaderProps> = ({
   onImportJSON,
 }) => {
   const [menuOpen, setMenuOpen] = useState(false);
-
-  const getTabTitle = () => {
-    switch (currentTab) {
-      case 'inicio':
-        return 'Resumen';
-      case 'historial':
-        return 'Historial';
-      case 'servicios':
-        return 'Servicios';
-      default:
-        return 'GasApp';
-    }
-  };
 
   const getLastBackupInfo = () => {
     try {
@@ -55,21 +40,16 @@ export const Header: React.FC<HeaderProps> = ({
   const needsBackup = backupInfo.days >= 7;
 
   return (
-    <header className="bg-gradient-to-r from-indigo-600 via-indigo-700 to-purple-700 dark:from-slate-900 dark:via-indigo-950 dark:to-slate-900 text-white flex-shrink-0 z-30 rounded-b-2xl shadow-lg px-4 py-3 transition-colors duration-300">
+    <header className="bg-slate-900 dark:bg-slate-950 border-b border-slate-800 text-white flex-shrink-0 z-30 rounded-b-xl shadow-md px-3 py-1.5 transition-colors duration-300">
       <div className="flex justify-between items-center max-w-lg mx-auto">
         {/* Logo & Brand */}
         <div className="flex items-center gap-2">
-          <div className="w-9 h-9 rounded-xl bg-white/15 dark:bg-white/10 backdrop-blur-md flex items-center justify-center text-xl shadow-inner border border-white/20">
-            <span>⛽</span>
-          </div>
-          <div>
-            <div className="font-extrabold text-base tracking-tight leading-none flex items-center gap-1">
-              GasApp
-              <span className="text-[10px] uppercase font-semibold px-1.5 py-0.5 rounded-full bg-white/20 text-white/90">
-                PRO
-              </span>
-            </div>
-            <div className="text-[11px] text-white/70 font-medium">{getTabTitle()}</div>
+          <span className="text-xl leading-none select-none shrink-0" aria-hidden="true">⛽</span>
+          <div className="font-extrabold text-base tracking-tight leading-none flex items-center gap-1.5">
+            <span>GasApp</span>
+            <span className="text-[10px] uppercase font-semibold px-1.5 py-0.5 rounded-full bg-slate-800 text-blue-300 border border-slate-700">
+              PRO
+            </span>
           </div>
         </div>
 
@@ -81,34 +61,34 @@ export const Header: React.FC<HeaderProps> = ({
             onClick={onOpenCloudSync}
             className={`relative flex items-center gap-1.5 px-2.5 py-1.5 rounded-full border text-xs font-semibold transition-all shadow-xs cursor-pointer ${
               needsBackup
-                ? 'bg-amber-500 hover:bg-amber-600 text-white border-amber-400 animate-pulse'
-                : 'bg-white/15 hover:bg-white/25 text-white border-white/20'
+                ? 'bg-blue-600 hover:bg-blue-500 text-white border-blue-500'
+                : 'bg-slate-800 hover:bg-slate-700 text-slate-100 border-slate-700'
             }`}
             title="Respaldos y Recordatorio Semanal"
           >
-            <Bell className={`w-3.5 h-3.5 ${needsBackup ? 'text-white' : 'text-indigo-200'}`} />
+            <Bell className={`w-3.5 h-3.5 ${needsBackup ? 'text-white' : 'text-blue-400'}`} />
             <span className="hidden sm:inline">Respaldar</span>
             {needsBackup && (
-              <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-600 rounded-full ring-2 ring-indigo-700 animate-ping" />
+              <span className="w-2 h-2 bg-amber-300 rounded-full" />
             )}
           </button>
 
-          {/* High-contrast Black / White Dark Mode Toggle Button */}
+          {/* Dark / Light Mode Toggle Button */}
           <button
             type="button"
             onClick={onToggleTheme}
-            className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200 active:scale-90 shadow-md cursor-pointer ${
+            className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200 active:scale-90 shadow-sm cursor-pointer border ${
               theme === 'dark'
-                ? 'bg-white text-black border-2 border-slate-200 hover:bg-slate-100'
-                : 'bg-black text-white border-2 border-slate-800 hover:bg-slate-900'
+                ? 'bg-white text-slate-900 border-slate-200 hover:bg-slate-100'
+                : 'bg-slate-800 text-white border-slate-700 hover:bg-slate-700'
             }`}
             title={theme === 'dark' ? 'Cambiar a Modo Claro' : 'Cambiar a Modo Oscuro'}
             aria-label="Alternar tema claro y oscuro"
           >
             {theme === 'dark' ? (
-              <Sun className="w-4 h-4 text-black stroke-[2.5]" />
+              <Sun className="w-4 h-4 text-slate-900 stroke-[2.25]" />
             ) : (
-              <Moon className="w-4 h-4 text-white stroke-[2.5]" />
+              <Moon className="w-4 h-4 text-white stroke-[2.25]" />
             )}
           </button>
 
@@ -142,7 +122,7 @@ export const Header: React.FC<HeaderProps> = ({
                     }}
                     className="w-full px-3 py-2 text-left hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center gap-2.5 transition-colors cursor-pointer"
                   >
-                    <Type className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
+                    <Type className="w-4 h-4 text-blue-600 dark:text-blue-400" />
                     <span>Fuente</span>
                   </button>
 
@@ -154,7 +134,7 @@ export const Header: React.FC<HeaderProps> = ({
                     }}
                     className="w-full px-3 py-2 text-left hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center gap-2.5 transition-colors cursor-pointer"
                   >
-                    <HardDrive className="w-4 h-4 text-sky-600 dark:text-sky-400" />
+                    <HardDrive className="w-4 h-4 text-blue-600 dark:text-blue-400" />
                     <span>Respaldos</span>
                   </button>
 
@@ -192,7 +172,7 @@ export const Header: React.FC<HeaderProps> = ({
                     }}
                     className="w-full px-3 py-2 text-left hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center gap-2.5 transition-colors cursor-pointer"
                   >
-                    <Upload className="w-4 h-4 text-purple-600 dark:text-purple-400" />
+                    <Upload className="w-4 h-4 text-blue-600 dark:text-blue-400" />
                     <span>Restaurar Archivo JSON</span>
                   </button>
                 </div>

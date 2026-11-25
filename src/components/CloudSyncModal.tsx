@@ -160,17 +160,17 @@ export const CloudSyncModal: React.FC<CloudSyncModalProps> = ({
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs">
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-2.5 bg-black/60 backdrop-blur-xs">
         <motion.div
           initial={{ opacity: 0, scale: 0.95, y: 15 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 15 }}
-          className="bg-white dark:bg-slate-900 rounded-2xl p-5 w-full max-w-md shadow-2xl border border-slate-200 dark:border-slate-800 max-h-[90vh] overflow-y-auto"
+          className="bg-white dark:bg-slate-900 rounded-2xl p-3.5 w-full max-w-md shadow-2xl border border-slate-200 dark:border-slate-800 max-h-[94vh] overflow-y-auto"
         >
           {/* Header */}
-          <div className="flex justify-between items-center pb-3 border-b border-slate-100 dark:border-slate-800">
+          <div className="flex justify-between items-center pb-2 border-b border-slate-100 dark:border-slate-800">
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-indigo-100 dark:bg-indigo-900/60 text-indigo-600 dark:text-indigo-400 flex items-center justify-center">
+              <div className="w-8 h-8 rounded-lg bg-blue-100 dark:bg-blue-900/60 text-blue-600 dark:text-blue-400 flex items-center justify-center">
                 <HardDrive className="w-4 h-4" />
               </div>
               <div>
@@ -189,19 +189,19 @@ export const CloudSyncModal: React.FC<CloudSyncModalProps> = ({
             </button>
           </div>
 
-          <div className="mt-4 space-y-3.5 text-xs">
+          <div className="mt-2.5 space-y-2.5 text-xs">
             {/* SECCIÓN PRINCIPAL: RECORDATORIO Y RESPALDO SEMANAL AUTOMÁTICO */}
-            <div className={`p-4 rounded-xl border space-y-3 shadow-xs ${needsBackup ? 'bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-950/60 dark:to-orange-950/40 border-amber-300 dark:border-amber-700' : 'bg-gradient-to-br from-indigo-50 to-purple-50/50 dark:from-slate-800/80 dark:to-indigo-950/40 border-indigo-200 dark:border-indigo-800/60'}`}>
+            <div className={`p-4 rounded-xl border space-y-3 shadow-xs ${needsBackup ? 'bg-amber-50/80 dark:bg-amber-950/50 border-amber-300 dark:border-amber-700' : 'bg-slate-50 dark:bg-slate-800/80 border-slate-200 dark:border-slate-700'}`}>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2 font-bold text-slate-800 dark:text-slate-100 text-sm">
-                  <div className={`w-7 h-7 rounded-lg shadow-xs flex items-center justify-center ${needsBackup ? 'bg-amber-500 text-white animate-pulse' : 'bg-indigo-600 text-white'}`}>
+                  <div className={`w-7 h-7 rounded-lg shadow-xs flex items-center justify-center ${needsBackup ? 'bg-amber-500 text-white' : 'bg-blue-600 text-white'}`}>
                     <Bell className="w-4 h-4" />
                   </div>
                   <div>
                     <div className="flex items-center gap-1.5">
                       <span>Recordatorio de Respaldo Semanal</span>
                       {needsBackup && (
-                        <span className="text-[10px] bg-red-600 text-white font-extrabold px-1.5 py-0.2 rounded-full animate-bounce">
+                        <span className="text-[10px] bg-red-600 text-white font-extrabold px-1.5 py-0.2 rounded-full">
                           ⚠️ ¡Hora de Respaldar!
                         </span>
                       )}
@@ -223,7 +223,7 @@ export const CloudSyncModal: React.FC<CloudSyncModalProps> = ({
               <button
                 type="button"
                 onClick={handleDownloadWeeklyBackup}
-                className="w-full py-3 px-3 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 active:scale-98 text-white font-bold flex items-center justify-center gap-2 transition-all text-xs shadow-md cursor-pointer"
+                className="w-full py-3 px-3 rounded-xl bg-blue-600 hover:bg-blue-700 active:scale-98 text-white font-bold flex items-center justify-center gap-2 transition-all text-xs shadow-md cursor-pointer"
               >
                 <Download className="w-4 h-4" />
                 <span>⚡ Respaldar Automático (Descargar JSON + CSV)</span>
@@ -268,7 +268,7 @@ export const CloudSyncModal: React.FC<CloudSyncModalProps> = ({
                 <button
                   type="button"
                   onClick={() => setShowPasteArea(!showPasteArea)}
-                  className="text-[11px] font-semibold text-indigo-600 dark:text-indigo-400 hover:underline flex items-center gap-1 cursor-pointer"
+                  className="text-[11px] font-semibold text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1 cursor-pointer"
                 >
                   <FileCode className="w-3.5 h-3.5" />
                   <span>{showPasteArea ? 'Ocultar cuadro de texto JSON' : '¿No abre el archivo? Pegar texto JSON directo aquí'}</span>
@@ -281,12 +281,12 @@ export const CloudSyncModal: React.FC<CloudSyncModalProps> = ({
                       value={jsonInputText}
                       onChange={(e) => setJsonInputText(e.target.value)}
                       placeholder='Pega aquí tu código JSON, ejemplo: {"carName":"Nissan March","fuels":[...]}'
-                      className="w-full p-2 text-[10px] font-mono rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-200 focus:ring-2 focus:ring-indigo-500"
+                      className="w-full p-2 text-[10px] font-mono rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-200 focus:ring-2 focus:ring-blue-500"
                     />
                     <button
                       type="button"
                       onClick={handleRestoreFromText}
-                      className="w-full py-1.5 px-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-lg transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+                      className="w-full py-1.5 px-3 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-lg transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
                     >
                       <Check className="w-3.5 h-3.5" />
                       <span>Restaurar desde Texto Pegado</span>
@@ -301,10 +301,10 @@ export const CloudSyncModal: React.FC<CloudSyncModalProps> = ({
             <div className="bg-slate-50 dark:bg-slate-800/60 p-3.5 rounded-xl border border-slate-200 dark:border-slate-700 space-y-2">
               <div className="flex items-center justify-between">
                 <div className="font-bold text-slate-800 dark:text-slate-100 flex items-center gap-1.5 text-xs">
-                  <Share2 className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
+                  <Share2 className="w-4 h-4 text-blue-600 dark:text-blue-400" />
                   <span>Reporte Excel / Google Sheets (.csv)</span>
                 </div>
-                <span className="text-[10px] bg-indigo-100 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300 font-bold px-1.5 py-0.5 rounded-full">
+                <span className="text-[10px] bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300 font-bold px-1.5 py-0.5 rounded-full">
                   CSV
                 </span>
               </div>
@@ -314,7 +314,7 @@ export const CloudSyncModal: React.FC<CloudSyncModalProps> = ({
               <button
                 type="button"
                 onClick={handleDownloadCSV}
-                className="w-full py-2 px-2.5 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white font-bold flex items-center justify-center gap-1.5 transition-colors text-xs cursor-pointer"
+                className="w-full py-2 px-2.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-bold flex items-center justify-center gap-1.5 transition-colors text-xs cursor-pointer"
               >
                 <Download className="w-3.5 h-3.5" />
                 <span>Descargar CSV Automático</span>
@@ -347,7 +347,7 @@ export const CloudSyncModal: React.FC<CloudSyncModalProps> = ({
             </div>
           </div>
 
-          <div className="mt-4 pt-2">
+          <div className="mt-2.5 pt-1.5">
             <button
               type="button"
               onClick={onClose}

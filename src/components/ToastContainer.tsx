@@ -23,7 +23,7 @@ export const ToastContainer: React.FC<ToastContainerProps> = ({ toasts, onDismis
             ? 'bg-amber-600 text-white shadow-amber-900/30'
             : isSuccess
             ? 'bg-emerald-600 text-white shadow-emerald-900/30'
-            : 'bg-indigo-600 text-white shadow-indigo-900/30';
+            : 'bg-blue-600 text-white shadow-blue-900/30';
 
           return (
             <motion.div

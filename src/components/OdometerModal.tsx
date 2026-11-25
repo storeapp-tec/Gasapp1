@@ -50,7 +50,7 @@ export const OdometerModal: React.FC<OdometerModalProps> = ({
         >
           <div className="flex justify-between items-center pb-3 border-b border-slate-100 dark:border-slate-800">
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-indigo-100 dark:bg-indigo-900/60 text-indigo-600 dark:text-indigo-400 flex items-center justify-center">
+              <div className="w-8 h-8 rounded-lg bg-blue-100 dark:bg-blue-900/60 text-blue-600 dark:text-blue-400 flex items-center justify-center">
                 <Gauge className="w-4 h-4" />
               </div>
               <h2 className="text-base font-bold text-slate-800 dark:text-slate-100">
@@ -87,7 +87,7 @@ export const OdometerModal: React.FC<OdometerModalProps> = ({
                   setError('');
                 }}
                 placeholder="Ej: 125000"
-                className="w-full bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2.5 text-base font-bold text-slate-800 dark:text-slate-100 focus:outline-hidden focus:ring-2 focus:ring-indigo-500"
+                className="w-full bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2.5 text-base font-bold text-slate-800 dark:text-slate-100 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
               />
               <p className="text-[11px] text-slate-600 dark:text-slate-300 mt-1">
                 El odómetro se actualiza automáticamente con cada carga, pero puedes ajustarlo manualmente aquí.
@@ -104,7 +104,7 @@ export const OdometerModal: React.FC<OdometerModalProps> = ({
               </button>
               <button
                 type="submit"
-                className="flex-1 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold text-xs transition-colors shadow-md shadow-indigo-600/20"
+                className="flex-1 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold text-xs transition-colors shadow-md shadow-blue-600/20"
               >
                 Guardar
               </button>

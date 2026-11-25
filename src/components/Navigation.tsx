@@ -20,7 +20,7 @@ export const Navigation: React.FC<NavigationProps> = ({
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-40 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-t border-slate-200 dark:border-slate-800 shadow-lg">
-      <div className="max-w-md mx-auto flex items-center justify-around h-16 px-3">
+      <div className="max-w-md mx-auto flex items-center justify-around h-11 px-1.5">
         {tabs.map((tab) => {
           const Icon = tab.icon;
           const isActive = currentTab === tab.id;
@@ -30,23 +30,23 @@ export const Navigation: React.FC<NavigationProps> = ({
               key={tab.id}
               type="button"
               onClick={() => onSelectTab(tab.id)}
-              className={`flex-1 py-1.5 flex flex-col items-center justify-center relative transition-all duration-200 rounded-xl ${
+              className={`flex-1 h-full min-h-[44px] px-1 flex items-center justify-center gap-1.5 relative transition-colors duration-150 cursor-pointer whitespace-nowrap ${
                 isActive
-                  ? 'text-indigo-600 dark:text-indigo-400 font-bold scale-105'
-                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 font-medium'
+                  ? 'text-blue-600 dark:text-blue-400 font-bold'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 font-semibold'
               }`}
             >
-              <div className="relative">
-                <Icon className={`w-5 h-5 transition-transform ${isActive ? 'stroke-[2.5]' : 'stroke-[1.8]'}`} />
+              <div className="relative shrink-0">
+                <Icon className={`w-4 h-4 ${isActive ? 'stroke-[2.5]' : 'stroke-[2]'}`} />
                 {tab.badge && tab.badge > 0 ? (
-                  <span className="absolute -top-1 -right-2 w-4 h-4 bg-rose-600 text-white rounded-full text-[9px] font-black flex items-center justify-center animate-pulse">
+                  <span className="absolute -top-1.5 -right-2 w-4 h-4 bg-rose-600 text-white rounded-full text-[10px] font-black flex items-center justify-center animate-pulse">
                     {tab.badge}
                   </span>
                 ) : null}
               </div>
-              <span className="text-[11px] mt-1 tracking-tight">{tab.label}</span>
+              <span className="text-sm leading-none tracking-tight">{tab.label}</span>
               {isActive && (
-                <div className="w-6 h-0.5 bg-indigo-600 dark:bg-indigo-400 rounded-full mt-0.5" />
+                <div className="absolute top-0 left-3 right-3 h-0.5 bg-blue-600 dark:bg-blue-400 rounded-b-full" />
               )}
             </button>
           );

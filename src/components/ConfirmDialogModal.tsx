@@ -64,7 +64,7 @@ export const ConfirmDialogModal: React.FC<ConfirmDialogModalProps> = ({
               className={`flex-1 py-2.5 rounded-xl font-bold text-xs text-white transition-colors shadow-md ${
                 isDangerous
                   ? 'bg-rose-600 hover:bg-rose-700 shadow-rose-600/20'
-                  : 'bg-indigo-600 hover:bg-indigo-700 shadow-indigo-600/20'
+                  : 'bg-blue-600 hover:bg-blue-700 shadow-blue-600/20'
               }`}
             >
               {confirmLabel}
